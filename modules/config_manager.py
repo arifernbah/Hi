@@ -49,6 +49,10 @@ class SmartConfig:
         
         # Entry confidence threshold
         self.confidence_threshold = 70  # Minimum confidence untuk entry (70%)
+        self.high_confidence_threshold = 80  # High confidence untuk 2nd position
+        self.max_high_confidence_positions = 1  # Max high confidence positions
+        self.different_symbols_only = True  # Force different symbols
+        self.portfolio_heat_limit = 10  # Portfolio heat limit (%)
         
         # Additional config attributes for compatibility
         self.exchange = "binance_futures"
@@ -138,6 +142,10 @@ class SmartConfig:
                 'leverage': self.leverage,
                 'max_open_positions': self.max_open_positions,
                 'confidence_threshold': self.confidence_threshold,
+                'high_confidence_threshold': self.high_confidence_threshold,
+                'max_high_confidence_positions': self.max_high_confidence_positions,
+                'different_symbols_only': self.different_symbols_only,
+                'portfolio_heat_limit': self.portfolio_heat_limit,
                 'exchange': self.exchange,
                 'strategy': self.strategy,
                 'risk_level': self.risk_level,
