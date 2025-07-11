@@ -47,6 +47,9 @@ class SmartConfig:
         # Balance tracking
         self.initial_balance = 100.0    # Default initial balance untuk reference
         
+        # Entry confidence threshold
+        self.confidence_threshold = 70  # Minimum confidence untuk entry (70%)
+        
         # Load existing config if available
         self.load_config()
     
@@ -100,7 +103,8 @@ class SmartConfig:
                 'stop_loss_pct': self.stop_loss_pct,
                 'min_profit_target': self.min_profit_target,
                 'leverage': self.leverage,
-                'max_open_positions': self.max_open_positions
+                'max_open_positions': self.max_open_positions,
+                'confidence_threshold': self.confidence_threshold
             }
             
             with open('config.json', 'w') as f:
