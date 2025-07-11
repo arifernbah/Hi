@@ -86,37 +86,23 @@ class TelegramNotifier:
         return text
     
     def get_startup_message(self) -> str:
-        """Enhanced startup message dengan genius features"""
-        genius_features = [
-            "🧠 **GENIUS PATTERN RECOGNITION**",
-            "📊 **Multi\\-Timeframe Confluence**", 
-            "🎯 **Advanced Volume Profile**",
-            "⚡ **Dynamic Risk Management**",
-            "🌟 **ICT Liquidity Concepts**",
-            "🔥 **Kelly Criterion Optimization**",
-            "💎 **9\\-Layer Exit System**",
-            "🚀 **Session\\-Based Intelligence**"
-        ]
-        
-        features_text = "\n".join(f"  {feature}" for feature in genius_features)
-        
-        return f"""🤖 **SUPER BRILLIANT BOT \\- GENIUS EDITION** 🧠
+        """Startup message yang santai dan friendly"""
+        return f"""🤖 **ArifBot Pro** 
 
-*Intelligence Level: PROFESSIONAL TRADER \\(10\\+ Years\\)*
+Yo bro\\! Bot trading udah siap nih \\- siap cuan\\! �
 
-🚀 **GENIUS FEATURES ACTIVATED:**
-{features_text}
+📊 **Fitur yang aktif:**
+• Pattern recognition
+• Risk management
+• Volume analysis
+• Multi\\-timeframe
 
-⚙️ **SYSTEM STATUS:**
-• Memory Optimization: ✅ Active
-• Risk Management: ✅ Hedge Fund Grade  
-• Pattern Recognition: ✅ Institutional Level
-• Multi\\-Layer Analysis: ✅ Operational
+⚙️ **Status:**
+• Memory: ✅ OK
+• Risk: ✅ Aman
+• Analysis: ✅ Jalan
 
-💎 **Ready untuk PROFIT MAKSIMAL\\!**
-Bot siap dengan kecerdasan setara trader profesional\\! 
-
-*"Intelligence is the ultimate edge in trading"* 🎯"""
+Gas trading bro\\! 🚀"""
     
     def get_entry_message(self, action: str, symbol: str, confidence: float, reason: str, pro_analysis: Dict, genius_features: Dict = None) -> str:
         """Enhanced entry message dengan genius analysis details"""
@@ -148,62 +134,34 @@ Bot siap dengan kecerdasan setara trader profesional\\!
             confidence_text = "⚠️ **LOW**"
         
         # Basic message structure
-        message = f"""{emoji} **GENIUS ENTRY SIGNAL** {direction_emoji}
+        message = f"""{emoji} **Entry Signal** {direction_emoji}
 
 {action_text} {symbol}
 📊 Confidence: {confidence:.1f}% ({confidence_text})
 
-🧠 **ANALYSIS BREAKDOWN:**"""
+📈 **Analysis:**"""
         
-        # Add market regime analysis
+        # Add simplified analysis
         if 'market_regime' in pro_analysis:
             regime_data = pro_analysis['market_regime']
             regime = regime_data.get('regime', 'unknown')
-            regime_confidence = regime_data.get('confidence', 0)
-            message += f"\n🏛️ Market Regime: **{regime.title()}** ({regime_confidence:.1f}%)"
+            message += f"\n📊 Market: {regime.title()}"
         
-        # Add genius pattern recognition
         if genius_features and 'pattern_recognition' in genius_features:
             pattern_data = genius_features['pattern_recognition']
             primary_pattern = pattern_data.get('primary_pattern', 'none')
-            pattern_strength = pattern_data.get('pattern_strength', 0)
-            if pattern_strength > 0:
-                message += f"\n🎯 Patterns: **{primary_pattern}** (Strength: {pattern_strength:.1f}%)"
+            if 'none' not in primary_pattern:
+                message += f"\n🎯 Pattern: {primary_pattern.split('(')[0].strip()}"
         
-        # Add confluence analysis
-        if genius_features and 'confluence' in genius_features:
-            confluence_data = genius_features['confluence']
-            alignment = confluence_data.get('alignment_strength', 0)
-            if alignment > 50:
-                message += f"\n🌟 Confluence: **{alignment:.1f}% ALIGNMENT**"
-        
-        # Add liquidity zones
-        if 'liquidity_zones' in pro_analysis:
-            liquidity_data = pro_analysis['liquidity_zones']
-            enhanced_bias = liquidity_data.get('enhanced_bias', 'neutral')
-            if enhanced_bias != 'neutral':
-                message += f"\n💧 Liquidity: **{enhanced_bias.upper()}**"
-        
-        # Add volume profile
-        if genius_features and 'volume_profile' in genius_features:
-            volume_data = genius_features['volume_profile']
-            profile_bias = volume_data.get('profile_bias', 'neutral')
-            volume_strength = volume_data.get('volume_strength', 0)
-            if volume_strength > 50:
-                message += f"\n📊 Volume: **{profile_bias.upper()}** ({volume_strength:.1f}%)"
-        
-        # Add position sizing info
-        message += f"\n\n💎 **RISK MANAGEMENT:**"
-        message += f"\n🎯 Risk: Professional Kelly Criterion"
-        message += f"\n🛡️ Protection: Multi-Layer Stops"
-        
-        # Add genius reason (simplified)
+        # Add simplified reason
         simplified_reason = reason.split(" | ")[0]  # Take only first part
-        message += f"\n\n🧠 **Core Logic:** {simplified_reason}"
+        message += f"\n\n� **Reason:** {simplified_reason}"
         
-        # Add motivational closer
-        motivation = self._get_entry_motivation(confidence)
-        message += f"\n\n{motivation}"
+        # Add simple closer
+        if confidence > 70:
+            message += f"\n\n🚀 Gas bro\\!"
+        else:
+            message += f"\n\n⚠️ Hati\\-hati ya\\!"
         
         return message
     
@@ -212,144 +170,76 @@ Bot siap dengan kecerdasan setara trader profesional\\!
         
         # Get appropriate emoji based on profit
         if profit_pct > 0.02:
-            emoji = "🚀💎"
-            profit_status = "**MEGA PROFIT**"
+            emoji = "🚀"
+            profit_status = "**Besar banget**"
         elif profit_pct > 0.01:
-            emoji = "💰✨"
-            profit_status = "**BIG WIN**"
+            emoji = "💰"
+            profit_status = "**Bagus**"
         elif profit_pct > 0.005:
             emoji = "💎"
-            profit_status = "**SOLID PROFIT**"
+            profit_status = "**Lumayan**"
         elif profit_pct > 0:
             emoji = "✅"
-            profit_status = "**PROFIT SECURED**"
+            profit_status = "**Untung**"
         else:
             emoji = "🛡️"
-            profit_status = "**LOSS CUT**"
+            profit_status = "**Rugi**"
         
         # Urgency styling
         urgency_styles = {
-            "CRITICAL": "🚨 **EMERGENCY**",
-            "HIGH": "⚠️ **URGENT**",
-            "MEDIUM": "⏰ **SMART**",
-            "LOW": "😌 **CASUAL**",
-            "NONE": "🟢 **PLANNED**"
+            "CRITICAL": "🚨 **Darurat**",
+            "HIGH": "⚠️ **Urgent**",
+            "MEDIUM": "⏰ **Smart**",
+            "LOW": "😌 **Santai**",
+            "NONE": "🟢 **Planned**"
         }
-        urgency_text = urgency_styles.get(urgency, "📋 **STANDARD**")
+        urgency_text = urgency_styles.get(urgency, "📋 **Standard**")
         
         # Build message
-        message = f"""{emoji} **GENIUS EXIT EXECUTED**
+        message = f"""{emoji} **Exit Signal**
 
-🎯 **{side} {symbol} CLOSED**
+🎯 **{side} {symbol} Closed**
 💰 P&L: **{profit_pct:+.2f}%** ({profit_status})
 ⚡ Priority: {urgency_text}
 
-🧠 **EXIT ANALYSIS:**"""
+📊 **Reason:**"""
         
-        # Add exit reason analysis
-        if "EMERGENCY" in reason:
-            message += f"\n🚨 **Emergency Protocol:** Capital protection activated"
-        elif "PATTERN" in reason:
-            message += f"\n🔄 **Pattern Exit:** Reversal signals detected"
-        elif "PROFIT" in reason or "Level" in reason:
-            message += f"\n🎯 **Profit Target:** Strategic exit level reached"
-        elif "STRUCTURE" in reason:
-            message += f"\n🏗️ **Structure Break:** Market conditions changed"
-        elif "MOMENTUM" in reason:
-            message += f"\n📊 **Momentum Shift:** Trend exhaustion detected"
-        elif "TRAILING" in reason:
-            message += f"\n📈 **Trailing Stop:** Profit protection system"
-        elif "SESSION" in reason:
-            message += f"\n⏰ **Session Management:** Optimal timing exit"
+        # Add simple reason
+        clean_reason = reason.split(" | ")[0]  # Take only first part
+        message += f"\n{clean_reason}"
         
-        # Add detailed reason
-        clean_reason = reason.replace("🚨", "").replace("📉", "").replace("🎯", "").replace("🏗️", "").replace("📊", "").replace("⏰", "").replace("😴", "").replace("📈", "").replace("📅", "").replace("🌍", "").replace("😱", "").replace("🤑", "").replace("🔄", "").strip()
-        message += f"\n📋 Details: {clean_reason}"
-        
-        # Performance assessment
-        if profit_pct > 0.015:
-            performance = "🏆 **EXCELLENT EXECUTION**"
-        elif profit_pct > 0.008:
-            performance = "⭐ **GOOD PERFORMANCE**"
-        elif profit_pct > 0.003:
-            performance = "✅ **SOLID EXECUTION**"
-        elif profit_pct > 0:
-            performance = "💎 **PROFIT SECURED**"
-        else:
-            performance = "🛡️ **RISK MANAGED**"
-        
-        message += f"\n\n{performance}"
-        
-        # Add genius insight
+        # Simple closer
         if profit_pct > 0.01:
-            insights = [
-                "Algoritma genius bekerja optimal! 🧠",
-                "Professional analysis pays off! 💎",
-                "Intelligence edge confirmed! ⚡",
-                "Confluence system working perfectly! 🎯"
-            ]
+            message += f"\n\n🚀 Mantap bro\\!"
+        elif profit_pct > 0:
+            message += f"\n\n✅ Oke lah\\!"
         else:
-            insights = [
-                "Risk management saves the day! 🛡️",
-                "Professional discipline in action! 💪",
-                "Smart exit, capital protected! 🏰",
-                "Strategic retreat, live to trade another day! ⚔️"
-            ]
-        
-        insight = random.choice(insights)
-        message += f"\n{insight}"
+            message += f"\n\n🛡️ Risk managed\\!"
         
         return message
     
     def get_status_message(self, balance: float, active_positions: int, mode: str, pro_stats: Dict) -> str:
-        """Enhanced status message dengan genius metrics"""
+        """Simple status message"""
         
-        # Status header dengan style
+        # Status header
         if active_positions > 0:
             status_emoji = "⚡"
-            status_text = "**ACTIVE TRADING**"
+            status_text = "**Trading**"
         else:
             status_emoji = "😴"
-            status_text = "**STANDBY MODE**"
+            status_text = "**Standby**"
         
-        message = f"""{status_emoji} **GENIUS BOT STATUS** 🤖
+        message = f"""{status_emoji} **Bot Status**
 
-🏦 **ACCOUNT OVERVIEW:**
 💰 Balance: **${balance:.2f}**
-📊 Active Positions: **{active_positions}**
+📊 Positions: **{active_positions}**
 🔧 Mode: **{mode}**
 ⚙️ Status: {status_text}
 
-🧠 **INTELLIGENCE METRICS:**"""
-        
-        # Add professional stats
-        win_rate = pro_stats.get('win_rate', 0) * 100
-        kelly_pct = pro_stats.get('kelly_percentage', 0) * 100
-        current_session = pro_stats.get('current_session', 'unknown')
-        
-        # Win rate assessment
-        if win_rate >= 80:
-            win_rate_status = "🏆 **EXCELLENT**"
-        elif win_rate >= 70:
-            win_rate_status = "⭐ **VERY GOOD**"
-        elif win_rate >= 60:
-            win_rate_status = "✅ **GOOD**"
-        else:
-            win_rate_status = "⚠️ **DEVELOPING**"
-        
-        message += f"\n🎯 Win Rate: **{win_rate:.1f}%** ({win_rate_status})"
-        message += f"\n📈 Kelly Optimal: **{kelly_pct:.2f}%**"
-        message += f"\n🌍 Session: **{current_session.title()}**"
-        
-        # System features status
-        message += f"\n\n🚀 **GENIUS FEATURES:**"
-        message += f"\n🧠 Pattern Recognition: ✅ **ACTIVE**"
-        message += f"\n📊 Multi-Timeframe: ✅ **SCANNING**"
-        message += f"\n💎 Volume Profile: ✅ **ANALYZING**"
-        message += f"\n🎯 Risk Management: ✅ **MONITORING**"
-        
-        # Market conditions
-        message += f"\n\n🌟 **READY FOR OPPORTUNITIES!**"
+📈 Win Rate: **{pro_stats.get('win_rate', 0) * 100:.1f}%**
+🎯 Kelly: **{pro_stats.get('kelly_percentage', 0) * 100:.2f}%**
+
+Ready cuan bro\\! 🚀"""
         
         return message
     
