@@ -714,9 +714,10 @@ class BinanceFuturesProBot:
                 # Check for auto-upgrade based on performance
                 upgrade_config = self.performance_monitor.check_and_upgrade()
                 if upgrade_config:
-                    # Apply auto-upgrade
-                    self.config.max_open_positions = upgrade_config['config']['max_open_trades']
-                    self.config.confidence_threshold = upgrade_config['config']['confidence_threshold']
+                                    # Apply auto-upgrade
+                self.config.max_open_positions = upgrade_config['config']['max_open_trades']
+                self.config.max_open_trades = upgrade_config['config']['max_open_trades']  # Keep both for compatibility
+                self.config.confidence_threshold = upgrade_config['config']['confidence_threshold']
                     
                     # Send upgrade notification
                     upgrade_msg = (

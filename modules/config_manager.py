@@ -50,6 +50,39 @@ class SmartConfig:
         # Entry confidence threshold
         self.confidence_threshold = 70  # Minimum confidence untuk entry (70%)
         
+        # Additional config attributes for compatibility
+        self.exchange = "binance_futures"
+        self.strategy = "hybrid"
+        self.risk_level = "conservative"
+        self.max_open_trades = 1  # Alias for max_open_positions
+        self.vps = "1GB"
+        
+        # Position sizing config
+        self.position_sizing_method = "kelly_partial"
+        self.position_sizing_fraction = 0.5
+        
+        # Safety orders config
+        self.safety_orders_enabled = False
+        self.max_safety_orders = 0
+        self.martingale_volume_coefficient = 1.0
+        self.martingale_step_coefficient = 1.0
+        
+        # Take profit config
+        self.take_profit_enabled = True
+        self.tp_percent = 1.0
+        
+        # Stop loss config
+        self.stop_loss_enabled = True
+        self.sl_percent = 3.0
+        
+        # Trailing config
+        self.trailing_enabled = True
+        self.trailing_percent = 0.2
+        
+        # Session config
+        self.session_active_hours_only = True
+        self.session_hours = "07:00-21:00"
+        
         # Load existing config if available
         self.load_config()
     
@@ -104,7 +137,26 @@ class SmartConfig:
                 'min_profit_target': self.min_profit_target,
                 'leverage': self.leverage,
                 'max_open_positions': self.max_open_positions,
-                'confidence_threshold': self.confidence_threshold
+                'confidence_threshold': self.confidence_threshold,
+                'exchange': self.exchange,
+                'strategy': self.strategy,
+                'risk_level': self.risk_level,
+                'max_open_trades': self.max_open_trades,
+                'vps': self.vps,
+                'position_sizing_method': self.position_sizing_method,
+                'position_sizing_fraction': self.position_sizing_fraction,
+                'safety_orders_enabled': self.safety_orders_enabled,
+                'max_safety_orders': self.max_safety_orders,
+                'martingale_volume_coefficient': self.martingale_volume_coefficient,
+                'martingale_step_coefficient': self.martingale_step_coefficient,
+                'take_profit_enabled': self.take_profit_enabled,
+                'tp_percent': self.tp_percent,
+                'stop_loss_enabled': self.stop_loss_enabled,
+                'sl_percent': self.sl_percent,
+                'trailing_enabled': self.trailing_enabled,
+                'trailing_percent': self.trailing_percent,
+                'session_active_hours_only': self.session_active_hours_only,
+                'session_hours': self.session_hours
             }
             
             with open('config.json', 'w') as f:
