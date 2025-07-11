@@ -87,9 +87,9 @@ class TelegramNotifier:
     
     def get_startup_message(self) -> str:
         """Startup message yang lucu dan ringan"""
-        return f"""🤖 **ArifBot** 
+        return f"""🤖 **ArifBot - MODERATE MODE** 
 
-Wahai para trader! Bot udah siap nih, siap bantuin cuan atau bantuin rugi 😂
+Wahai para trader! Bot udah siap nih dengan MODERATE MODE - growth aman tapi ga lambat! �
 
 📊 **Yang udah jalan:**
 • Pattern detection (kayak detektif)
@@ -101,8 +101,9 @@ Wahai para trader! Bot udah siap nih, siap bantuin cuan atau bantuin rugi 😂
 • Memory: ✅ Masih inget
 • Risk: ✅ Masih waras
 • Analysis: ✅ Masih mikir
+• Mode: ✅ Moderate (20-25% target)
 
-Gas trading bro! Kalau rugi jangan nyalahin bot ya �"""
+Gas trading bro! Growth aman tapi ga lambat! 📈"""
     
     def get_entry_message(self, action: str, symbol: str, confidence: float, reason: str, pro_analysis: Dict, genius_features: Dict = None) -> str:
         """Enhanced entry message dengan genius analysis details"""
@@ -159,9 +160,9 @@ Gas trading bro! Kalau rugi jangan nyalahin bot ya �"""
         
         # Add simple closer lucu
         if confidence > 70:
-            message += f"\n\n🚀 Gas bro! Semoga cuan! 🙏"
+            message += f"\n\n🚀 Gas bro! Moderate mode - growth aman! 🙏"
         else:
-            message += f"\n\n⚠️ Hati-hati ya! Kalau rugi jangan nangis 😅"
+            message += f"\n\n⚠️ Hati-hati ya! Moderate mode tetap jaga risk 😅"
         
         return message
     
@@ -210,11 +211,11 @@ Gas trading bro! Kalau rugi jangan nyalahin bot ya �"""
         
         # Simple closer lucu
         if profit_pct > 0.01:
-            message += f"\n\n🚀 Mantap bro! Cuan lagi! 💰"
+            message += f"\n\n🚀 Mantap bro! Moderate mode cuan! 💰"
         elif profit_pct > 0:
-            message += f"\n\n✅ Oke lah, untung dikit 😊"
+            message += f"\n\n✅ Oke lah, moderate growth! 😊"
         else:
-            message += f"\n\n🛡️ Risk managed! Jangan sedih, masih ada besok 😅"
+            message += f"\n\n🛡️ Risk managed! Moderate mode tetap aman 😅"
         
         return message
     
