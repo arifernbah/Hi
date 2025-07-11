@@ -44,6 +44,9 @@ class SmartConfig:
         # Position management
         self.max_open_positions = 1     # Hanya 1 posisi untuk modal kecil
         
+        # Balance tracking
+        self.initial_balance = 100.0    # Default initial balance untuk reference
+        
         # Load existing config if available
         self.load_config()
     

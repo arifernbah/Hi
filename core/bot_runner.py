@@ -745,8 +745,10 @@ class BinanceFuturesProBot:
                     # Filter position for this symbol
                     symbol_positions = [p for p in open_positions if p['symbol'] == symbol]
                     
-                    # Check portfolio heat
-                    portfolio_heat = self.position_sizing.get_portfolio_heat(open_positions, self.config.initial_balance)
+                    # Check portfolio heat - use actual balance from Binance
+                    balances = await self.client.futures_account_balance()
+                    current_balance = next((float(x['balance']) for x in balances if x['asset'] == 'USDT'), 0)
+                    portfolio_heat = self.position_sizing.get_portfolio_heat(open_positions, current_balance)
                     if portfolio_heat['max_heat_reached']:
                         logger.info(f"Portfolio heat limit reached: {portfolio_heat['total_heat']:.1%}")
                         continue

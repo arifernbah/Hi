@@ -53,6 +53,10 @@ class TelegramNotifier:
             
             self.last_notification_time[message_hash] = current_time
             
+            # Escape special characters for Markdown
+            if parse_mode == 'Markdown':
+                message = self._escape_markdown(message)
+            
             # Send message
             await self.bot.send_message(
                 chat_id=self.chat_id,
@@ -62,6 +66,25 @@ class TelegramNotifier:
             
         except Exception as e:
             logger.error(f"Error sending Telegram message: {e}")
+            # Fallback: try sending without parse_mode
+            try:
+                await self.bot.send_message(
+                    chat_id=self.chat_id,
+                    text=message,
+                    parse_mode=None
+                )
+            except Exception as e2:
+                logger.error(f"Error sending Telegram message (fallback): {e2}")
+    
+    def _escape_markdown(self, text: str) -> str:
+        """Escape special characters for Markdown parsing"""
+        # Characters that need escaping in Markdown
+        special_chars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+        
+        for char in special_chars:
+            text = text.replace(char, f'\\{char}')
+        
+        return text
     
     def get_startup_message(self) -> str:
         """Enhanced startup message dengan genius features"""
