@@ -41,13 +41,13 @@ class SmartConfig:
         self.min_profit_target = 0.005  # 0.5% minimum profit
         self.leverage = 2               # Low leverage untuk safety
         
-        # Position management - optimized for growth
-        self.max_open_positions = 2     # 2 posisi untuk optimal growth
+        # Position management - MODERATE MODE
+        self.max_open_positions = 2     # 2 posisi untuk moderate growth
         
         # Balance tracking
         self.initial_balance = 100.0    # Default initial balance untuk reference
         
-        # Entry confidence threshold - optimized for growth
+        # Entry confidence threshold - MODERATE MODE
         self.confidence_threshold = 70  # Normal confidence untuk entry (70%)
         self.high_confidence_threshold = 80  # High confidence untuk 2nd position
         self.max_high_confidence_positions = 1  # Max high confidence positions
