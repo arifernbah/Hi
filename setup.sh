@@ -30,20 +30,45 @@ pip install -r requirements.txt
 # Create .env file if it doesn't exist
 if [ ! -f .env ]; then
     echo "📝 Creating .env file template..."
-    cat > .env << EOF
-# Binance API Configuration
-BINANCE_API_KEY=your_api_key_here
-BINANCE_SECRET_KEY=your_secret_key_here
+    cat > .env << 'EOF'
+# ========================================
+# 🤖 BINANCE FUTURES TRADING BOT CONFIG
+# ========================================
 
-# Telegram Configuration
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
-TELEGRAM_CHAT_ID=your_chat_id_here
+# 🔑 BINANCE API CONFIGURATION
+# Get from: https://www.binance.com/en/my/settings/api-management
+# Enable: Futures Trading, Spot & Margin Trading
+API_KEY=your_binance_api_key_here
+API_SECRET=your_binance_secret_key_here
 
-# Trading Configuration
+# Alternative format (also supported):
+# BINANCE_API_KEY=your_binance_api_key_here
+# BINANCE_SECRET_KEY=your_binance_secret_key_here
+
+# 📱 TELEGRAM CONFIGURATION
+# Bot Token: Get from @BotFather on Telegram
+# Chat ID: Get from @userinfobot on Telegram
+TELEGRAM_TOKEN=your_telegram_bot_token_here
+TELEGRAM_CHAT_ID=your_telegram_chat_id_here
+
+# Alternative format (also supported):
+# TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+
+# ⚙️ TRADING CONFIGURATION
 DEFAULT_SYMBOL=BTCUSDT
-TEST_MODE=true
+TEST_MODE=false
+
+# 🎯 TRADING MODES
+# TEST_MODE=true  = Testnet (paper trading)
+# TEST_MODE=false = Real trading (LIVE MONEY)
+
+# 📊 OPTIONAL SETTINGS
+# MAX_POSITIONS=3
+# CONFIDENCE_THRESHOLD=70
+# LEVERAGE=5
 EOF
     echo "✅ .env file created! Please edit it with your API keys."
+    echo "⚠️  IMPORTANT: Set TEST_MODE=false for real trading!"
 else
     echo "✅ .env file already exists."
 fi
@@ -55,5 +80,5 @@ echo "📋 Next steps:"
 echo "1. Edit .env file with your API keys"
 echo "2. Run: source venv/bin/activate && python3 binance_futures_bot.py"
 echo ""
-echo "⚠️  IMPORTANT: Always test with TEST_MODE=true first!"
+echo "⚠️  IMPORTANT: Set TEST_MODE=false for real trading!"
 echo "=============================================="

@@ -24,18 +24,39 @@ chmod +x setup.sh
 
 ### 2. Configure API Keys
 Edit the `.env` file with your credentials:
+
+#### 🔑 **Binance API Setup:**
+1. Go to [Binance API Management](https://www.binance.com/en/my/settings/api-management)
+2. Create new API key
+3. **Enable permissions**: Futures Trading, Spot & Margin Trading
+4. **Restrict IP** (recommended): Add your VPS IP
+
+#### 📱 **Telegram Bot Setup:**
+1. Create bot: Message [@BotFather](https://t.me/botfather) on Telegram
+2. Get bot token: `/newbot` → follow instructions
+3. Get chat ID: Message [@userinfobot](https://t.me/userinfobot)
+
+#### ⚙️ **Edit .env file:**
 ```env
-# Binance API Configuration
-BINANCE_API_KEY=your_api_key_here
-BINANCE_SECRET_KEY=your_secret_key_here
+# ========================================
+# 🤖 BINANCE FUTURES TRADING BOT CONFIG
+# ========================================
 
-# Telegram Configuration
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
-TELEGRAM_CHAT_ID=your_chat_id_here
+# 🔑 BINANCE API CONFIGURATION
+API_KEY=your_binance_api_key_here
+API_SECRET=your_binance_secret_key_here
 
-# Trading Configuration
+# 📱 TELEGRAM CONFIGURATION
+TELEGRAM_TOKEN=your_telegram_bot_token_here
+TELEGRAM_CHAT_ID=your_telegram_chat_id_here
+
+# ⚙️ TRADING CONFIGURATION
 DEFAULT_SYMBOL=BTCUSDT
-TEST_MODE=true
+TEST_MODE=false  # Set to false for real trading!
+
+# 🎯 TRADING MODES
+# TEST_MODE=true  = Testnet (paper trading)
+# TEST_MODE=false = Real trading (LIVE MONEY)
 ```
 
 ### 3. Run the Bot
@@ -88,7 +109,7 @@ python3 binance_futures_bot.py
 
 ## ⚠️ Important Notes
 
-1. **Always test first**: Set `TEST_MODE=true` in `.env`
+1. **For real trading**: Set `TEST_MODE=false` in `.env`
 2. **Start small**: Begin with small amounts
 3. **Monitor regularly**: Check Telegram notifications
 4. **Risk warning**: Trading involves risk of loss
