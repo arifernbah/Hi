@@ -55,48 +55,72 @@ class SmartEntry:
             genius_features = {}
             
             # 1. ENHANCED MARKET REGIME (25 points) - Improved intelligence
-            regime_data = self.regime_detector.detect_market_regime(closes, volumes)
-            regime_score = self._score_enhanced_regime(regime_data, closes, volumes)
-            score += regime_score
-            signals.append(f"Regime: {regime_data['regime']} ({regime_data['confidence']:.1f}%)")
-            pro_analysis['market_regime'] = regime_data
+            try:
+                regime_data = self.regime_detector.detect_market_regime(closes, volumes)
+                regime_score = self._score_enhanced_regime(regime_data, closes, volumes)
+                score += regime_score
+                signals.append(f"Regime: {regime_data['regime']} ({regime_data['confidence']:.1f}%)")
+                pro_analysis['market_regime'] = regime_data
+            except Exception as e:
+                logger.error(f"Error in regime analysis: {e}")
+                score += 5  # Default score
             
             # 2. GENIUS PATTERN RECOGNITION (20 points) - NEW SUPER FEATURE
-            pattern_data = self._detect_genius_patterns(highs, lows, opens, closes, volumes)
-            pattern_score = self._score_pattern_recognition(pattern_data)
-            score += pattern_score
-            signals.append(f"Patterns: {pattern_data['primary_pattern']}")
-            genius_features['pattern_recognition'] = pattern_data
+            try:
+                pattern_data = self._detect_genius_patterns(highs, lows, opens, closes, volumes)
+                pattern_score = self._score_pattern_recognition(pattern_data)
+                score += pattern_score
+                signals.append(f"Patterns: {pattern_data['primary_pattern']}")
+                genius_features['pattern_recognition'] = pattern_data
+            except Exception as e:
+                logger.error(f"Error in pattern analysis: {e}")
+                score += 5  # Default score
             
             # 3. ADVANCED LIQUIDITY ZONES (20 points) - Enhanced
-            liquidity_data = self.liquidity_detector.detect_liquidity_zones(closes)
-            liquidity_enhanced = self._enhance_liquidity_analysis(liquidity_data, highs, lows, volumes)
-            liquidity_score = self._score_enhanced_liquidity(liquidity_enhanced, closes[-1])
-            score += liquidity_score
-            signals.append(f"Liquidity: {liquidity_enhanced['enhanced_bias']}")
-            pro_analysis['liquidity_zones'] = liquidity_enhanced
+            try:
+                liquidity_data = self.liquidity_detector.detect_liquidity_zones(closes)
+                liquidity_enhanced = self._enhance_liquidity_analysis(liquidity_data, highs, lows, volumes)
+                liquidity_score = self._score_enhanced_liquidity(liquidity_enhanced, closes[-1])
+                score += liquidity_score
+                signals.append(f"Liquidity: {liquidity_enhanced['enhanced_bias']}")
+                pro_analysis['liquidity_zones'] = liquidity_enhanced
+            except Exception as e:
+                logger.error(f"Error in liquidity analysis: {e}")
+                score += 5  # Default score
             
             # 4. MULTI-TIMEFRAME CONFLUENCE (15 points) - GENIUS FEATURE
-            confluence_data = self._analyze_multi_timeframe_confluence(closes, volumes)
-            confluence_score = self._score_confluence_analysis(confluence_data)
-            score += confluence_score
-            signals.append(f"Confluence: {confluence_data['alignment_strength']:.1f}%")
-            genius_features['confluence'] = confluence_data
+            try:
+                confluence_data = self._analyze_multi_timeframe_confluence(closes, volumes)
+                confluence_score = self._score_confluence_analysis(confluence_data)
+                score += confluence_score
+                signals.append(f"Confluence: {confluence_data['alignment_strength']:.1f}%")
+                genius_features['confluence'] = confluence_data
+            except Exception as e:
+                logger.error(f"Error in confluence analysis: {e}")
+                score += 3  # Default score
             
             # 5. ADVANCED MARKET STRUCTURE (10 points) - Enhanced
-            structure_data = self.structure_analyzer.analyze_market_structure(closes)
-            structure_enhanced = self._enhance_structure_analysis(structure_data, highs, lows)
-            structure_score = self._score_enhanced_structure(structure_enhanced)
-            score += structure_score
-            signals.append(f"Structure: {structure_enhanced['enhanced_bias']}")
-            pro_analysis['market_structure'] = structure_enhanced
+            try:
+                structure_data = self.structure_analyzer.analyze_market_structure(closes)
+                structure_enhanced = self._enhance_structure_analysis(structure_data, highs, lows)
+                structure_score = self._score_enhanced_structure(structure_enhanced)
+                score += structure_score
+                signals.append(f"Structure: {structure_enhanced['enhanced_bias']}")
+                pro_analysis['market_structure'] = structure_enhanced
+            except Exception as e:
+                logger.error(f"Error in structure analysis: {e}")
+                score += 3  # Default score
             
             # 6. GENIUS VOLUME ANALYSIS (10 points) - NEW BRILLIANT FEATURE
-            volume_genius = self._analyze_genius_volume_profile(closes, volumes, highs, lows)
-            volume_score = self._score_volume_genius(volume_genius)
-            score += volume_score
-            signals.append(f"Volume: {volume_genius['profile_bias']}")
-            genius_features['volume_profile'] = volume_genius
+            try:
+                volume_genius = self._analyze_genius_volume_profile(closes, volumes, highs, lows)
+                volume_score = self._score_volume_genius(volume_genius)
+                score += volume_score
+                signals.append(f"Volume: {volume_genius['profile_bias']}")
+                genius_features['volume_profile'] = volume_genius
+            except Exception as e:
+                logger.error(f"Error in volume analysis: {e}")
+                score += 3  # Default score
             
             # Apply session timing with GENIUS enhancement
             session_data = self.session_analyzer.get_session_adjustment_factor()
@@ -649,10 +673,11 @@ class SmartEntry:
             x = np.arange(len(prices))
             slope, _ = np.polyfit(x, prices, 1)
             
-            # R-squared for trend quality
-            predicted = slope * x + prices[0]
-            ss_res = np.sum((np.array(prices) - predicted) ** 2)
-            ss_tot = np.sum((np.array(prices) - np.mean(prices)) ** 2)
+            # R-squared for trend quality - ensure same array sizes
+            prices_array = np.array(prices)
+            predicted = slope * x + prices_array[0]  # Use prices_array[0] instead of prices[0]
+            ss_res = np.sum((prices_array - predicted) ** 2)
+            ss_tot = np.sum((prices_array - np.mean(prices_array)) ** 2)
             r_squared = 1 - (ss_res / ss_tot) if ss_tot != 0 else 0
             
             # Trend strength based on slope magnitude and R-squared
@@ -1820,11 +1845,12 @@ class SmartExit:
             # Trend consistency
             x = np.arange(len(closes))
             slope, _ = np.polyfit(x, closes, 1)
-            predicted = slope * x + closes[0]
+            closes_array = np.array(closes)
+            predicted = slope * x + closes_array[0]  # Use closes_array[0] instead of closes[0]
             
             # R-squared
-            ss_res = np.sum((np.array(closes) - predicted) ** 2)
-            ss_tot = np.sum((np.array(closes) - np.mean(closes)) ** 2)
+            ss_res = np.sum((closes_array - predicted) ** 2)
+            ss_tot = np.sum((closes_array - np.mean(closes_array)) ** 2)
             r_squared = 1 - (ss_res / ss_tot) if ss_tot != 0 else 0
             
             return max(0, min(1, r_squared))
