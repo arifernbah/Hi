@@ -644,19 +644,23 @@ class SmartEntry:
         if len(prices) < 10:
             return 0
         
-        # Linear regression for trend
-        x = np.arange(len(prices))
-        slope, _ = np.polyfit(x, prices, 1)
-        
-        # R-squared for trend quality
-        predicted = slope * x + prices[0]
-        ss_res = np.sum((prices - predicted) ** 2)
-        ss_tot = np.sum((prices - np.mean(prices)) ** 2)
-        r_squared = 1 - (ss_res / ss_tot) if ss_tot != 0 else 0
-        
-        # Trend strength based on slope magnitude and R-squared
-        trend_strength = min(abs(slope) / prices[-1] * 10000, 50) * r_squared
-        return min(trend_strength, 100)
+        try:
+            # Linear regression for trend
+            x = np.arange(len(prices))
+            slope, _ = np.polyfit(x, prices, 1)
+            
+            # R-squared for trend quality
+            predicted = slope * x + prices[0]
+            ss_res = np.sum((np.array(prices) - predicted) ** 2)
+            ss_tot = np.sum((np.array(prices) - np.mean(prices)) ** 2)
+            r_squared = 1 - (ss_res / ss_tot) if ss_tot != 0 else 0
+            
+            # Trend strength based on slope magnitude and R-squared
+            trend_strength = min(abs(slope) / prices[-1] * 10000, 50) * r_squared
+            return min(trend_strength, 100)
+        except Exception as e:
+            logger.error(f"Error calculating trend strength: {e}")
+            return 0
     
     def _find_swing_points(self, data: List[float], point_type: str) -> List[Dict]:
         """Find swing highs or lows"""
@@ -1602,19 +1606,23 @@ class SmartExit:
         if len(closes) < 20:
             return 'unknown'
         
-        # Linear regression slope
-        x = np.arange(len(closes))
-        slope, _ = np.polyfit(x, closes, 1)
-        
-        # Trend strength
-        slope_pct = (slope * len(closes)) / closes[0]
-        
-        if abs(slope_pct) > 0.02:
-            return 'strong_trend'
-        elif abs(slope_pct) < 0.005:
-            return 'choppy'
-        else:
-            return 'moderate_trend'
+        try:
+            # Linear regression slope
+            x = np.arange(len(closes))
+            slope, _ = np.polyfit(x, closes, 1)
+            
+            # Trend strength
+            slope_pct = (slope * len(closes)) / closes[0]
+            
+            if abs(slope_pct) > 0.02:
+                return 'strong_trend'
+            elif abs(slope_pct) < 0.005:
+                return 'choppy'
+            else:
+                return 'moderate_trend'
+        except Exception as e:
+            logger.error(f"Error calculating market trend strength: {e}")
+            return 'unknown'
     
     def _calculate_market_volatility(self, closes: List[float]) -> float:
         """Calculate market volatility"""
@@ -1808,14 +1816,18 @@ class SmartExit:
         if len(closes) < 10:
             return 0.5
         
-        # Trend consistency
-        x = np.arange(len(closes))
-        slope, _ = np.polyfit(x, closes, 1)
-        predicted = slope * x + closes[0]
-        
-        # R-squared
-        ss_res = np.sum((closes - predicted) ** 2)
-        ss_tot = np.sum((closes - np.mean(closes)) ** 2)
-        r_squared = 1 - (ss_res / ss_tot) if ss_tot != 0 else 0
-        
-        return max(0, min(1, r_squared))
+        try:
+            # Trend consistency
+            x = np.arange(len(closes))
+            slope, _ = np.polyfit(x, closes, 1)
+            predicted = slope * x + closes[0]
+            
+            # R-squared
+            ss_res = np.sum((np.array(closes) - predicted) ** 2)
+            ss_tot = np.sum((np.array(closes) - np.mean(closes)) ** 2)
+            r_squared = 1 - (ss_res / ss_tot) if ss_tot != 0 else 0
+            
+            return max(0, min(1, r_squared))
+        except Exception as e:
+            logger.error(f"Error calculating price action quality: {e}")
+            return 0.5
