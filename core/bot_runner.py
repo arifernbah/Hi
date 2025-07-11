@@ -80,6 +80,7 @@ class BinanceFuturesProBot:
             self.config.telegram_token, 
             self.config.telegram_chat_id
         )
+        self.position_sizing = KellyCriterionCalculator()
         
         # Bot state
         self.is_running = False
@@ -745,7 +746,7 @@ class BinanceFuturesProBot:
                     symbol_positions = [p for p in open_positions if p['symbol'] == symbol]
                     
                     # Check portfolio heat
-                    portfolio_heat = self.get_portfolio_heat(open_positions, self.config.initial_balance)
+                    portfolio_heat = self.position_sizing.get_portfolio_heat(open_positions, self.config.initial_balance)
                     if portfolio_heat['max_heat_reached']:
                         logger.info(f"Portfolio heat limit reached: {portfolio_heat['total_heat']:.1%}")
                         continue
