@@ -15,25 +15,12 @@ if [ ! -f ".env" ]; then
     exit 1
 fi
 
-# Activate virtual environment
+# Activate virtual environment and run bot
 echo "🔌 Activating virtual environment..."
 source venv/bin/activate
 
-# Check if main bot file exists
-if [ ! -f "binance_futures_bot.py" ]; then
-    echo "❌ bot file not found!"
-    exit 1
-fi
-
-# Start the bot
 echo "🚀 Starting bot..."
 echo "📊 Logs will appear below:"
 echo "=============================================="
 
-# Run the bot with error handling
 python3 binance_futures_bot.py
-
-# If the bot exits, show message
-echo ""
-echo "🤖 Bot stopped."
-echo "To restart, run: ./run_bot.sh"

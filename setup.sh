@@ -3,19 +3,13 @@
 echo "🚀 Setting up Binance Futures Trading Bot..."
 echo "=============================================="
 
-# Check if running as root
-if [ "$EUID" -eq 0 ]; then
-    echo "❌ Please don't run this script as root"
-    exit 1
-fi
-
 # Update system packages
 echo "📦 Updating system packages..."
 sudo apt update -y
 
 # Install required system packages
 echo "🔧 Installing system dependencies..."
-sudo apt install -y python3 python3-pip python3-venv git curl wget
+sudo apt install -y python3 python3-pip python3-venv
 
 # Create virtual environment
 echo "🐍 Creating Python virtual environment..."
@@ -54,18 +48,12 @@ else
     echo "✅ .env file already exists."
 fi
 
-# Make main script executable
-echo "🔧 Making scripts executable..."
-chmod +x run_bot.sh
-chmod +x stop_bot.sh
-
 echo ""
 echo "🎉 Setup completed successfully!"
 echo "=============================================="
 echo "📋 Next steps:"
 echo "1. Edit .env file with your API keys"
-echo "2. Run: ./run_bot.sh"
-echo "3. To stop: ./stop_bot.sh"
+echo "2. Run: source venv/bin/activate && python3 binance_futures_bot.py"
 echo ""
 echo "⚠️  IMPORTANT: Always test with TEST_MODE=true first!"
 echo "=============================================="

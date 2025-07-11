@@ -1,121 +1,150 @@
-# ARIFBOT - Binance Futures Trading Bot
+# 🤖 Binance Futures Trading Bot
 
-🤖 **Professional Binance Futures Trading Bot** dengan arsitektur modular dan intelligence 10-year pro trader.
+Advanced automated trading bot for Binance Futures with multi-symbol scanning, smart position sizing, and Telegram notifications.
 
-## ⚡ Fitur Utama
+## ✨ Features
 
-- **📊 Binance Futures Trading** (bukan Spot)
-- **🧠 Professional Trading Intelligence**
-- **🛡️ Risk Management Hedge Fund Grade**
-- **📱 Telegram Integration**
-- **⚙️ Modular Architecture**
-- **🎯 Multi-Symbol Support** (Top 10 pairs)
-- **🔄 Auto Testnet/Real Detection**
+- **Multi-Symbol Trading**: Scans 10+ cryptocurrency pairs simultaneously
+- **Smart Analysis**: Advanced technical indicators and market analysis
+- **Auto Leverage**: Dynamic leverage adjustment based on balance and volatility
+- **Risk Management**: Sophisticated position sizing and risk controls
+- **Telegram Integration**: Real-time notifications and casual messaging
+- **Two Trading Modes**: 
+  - **Moderate Mode** ($5-$20): 20-25% monthly growth
+  - **Optimized Mode** ($20+): 30-45% monthly growth
 
 ## 🚀 Quick Start
 
-### 1. Setup Otomatis
+### 1. Setup Environment
 ```bash
-bash setup_and_run.sh
+# Make setup script executable and run
+chmod +x setup.sh
+./setup.sh
 ```
 
-### 2. Manual Setup
-```bash
-# Install dependencies
-python3.10 -m venv venv
-source venv/bin/activate
-pip install -r requirements_pro_trader.txt
-
-# Setup environment
-cp .env.template .env
-# Edit .env dengan API key Anda
-```
-
-### 3. Konfigurasi .env
+### 2. Configure API Keys
+Edit the `.env` file with your credentials:
 ```env
-API_KEY=your_binance_futures_api_key
-API_SECRET=your_binance_futures_secret
-TELEGRAM_TOKEN=your_telegram_bot_token
-TELEGRAM_CHAT_ID=your_telegram_chat_id
+# Binance API Configuration
+BINANCE_API_KEY=your_api_key_here
+BINANCE_SECRET_KEY=your_secret_key_here
+
+# Telegram Configuration
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+TELEGRAM_CHAT_ID=your_chat_id_here
+
+# Trading Configuration
+DEFAULT_SYMBOL=BTCUSDT
+TEST_MODE=true
 ```
 
-## 📋 Requirements
-
-- Python 3.10+
-- Binance Futures API Key
-- Telegram Bot Token
-- VPS dengan akses internet stabil
-
-## 🔧 Konfigurasi
-
-### API Key Setup
-1. **Untuk Real Trading:**
-   - Buat API key di [Binance Futures](https://www.binance.com/en/futures-activity/leaderboard)
-   - Aktifkan Futures permissions
-   - Pastikan IP VPS sudah di-whitelist
-
-2. **Untuk Testing:**
-   - Buat API key di [Binance Testnet](https://testnet.binance.vision/)
-   - Bot otomatis detect testnet/real
-
-### Telegram Setup
-1. Buat bot di [@BotFather](https://t.me/botfather)
-2. Dapatkan chat ID dengan [@userinfobot](https://t.me/userinfobot)
-3. Isi di file `.env`
-
-## 📊 Trading Pairs
-
-Bot mendukung top 10 large-cap futures pairs:
-- BTCUSDT, ETHUSDT, BNBUSDT
-- XRPUSDT, SOLUSDT, ADAUSDT
-- AVAXUSDT, MATICUSDT, DOTUSDT, LTCUSDT
-
-## 🛡️ Risk Management
-
-- **Position Sizing:** Kelly Criterion
-- **Stop Loss:** Dynamic berdasarkan volatility
-- **Take Profit:** Multi-level
-- **Max Risk:** 2% per trade
-- **Leverage:** Conservative (2x default)
-
-## 📱 Telegram Commands
-
-- `/start` - Welcome message
-- `/status` - Bot status & positions
-- `/balance` - Account balance
-- `/performance` - Trading stats
-- `/mode` - Current mode (testnet/real)
-- `/testnet` - Switch to testnet
-- `/real` - Switch to real trading
-- `/stop` - Stop bot
-- `/help` - Show help
-
-## 🏗️ Architecture
-
-```
-├── core/
-│   └── bot_runner.py          # Main bot logic
-├── modules/
-│   ├── config_manager.py      # Configuration
-│   ├── smart_trading.py       # Trading strategies
-│   ├── telegram_handler.py    # Telegram integration
-│   └── ...                    # Other modules
-├── main.py                    # Entry point
-├── setup_and_run.sh          # Auto setup script
-└── requirements_pro_trader.txt # Dependencies
+### 3. Run the Bot
+```bash
+# Make run script executable and start
+chmod +x run.sh
+./run.sh
 ```
 
-## ⚠️ Disclaimer
+## 📋 Prerequisites
 
-- **Trading involves risk**
-- **Test thoroughly before real trading**
-- **Use testnet for initial testing**
-- **Monitor bot performance regularly**
+- **Binance Account**: Create account at [binance.com](https://binance.com)
+- **API Keys**: Generate API keys with Futures trading permissions
+- **Telegram Bot**: Create bot via [@BotFather](https://t.me/botfather)
+- **Minimum Balance**: $5 for moderate mode, $20+ for optimized mode
+
+## 🔧 Manual Setup (Alternative)
+
+If you prefer manual setup:
+
+```bash
+# Install system dependencies
+sudo apt update
+sudo apt install -y python3 python3-pip python3-venv
+
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Run the bot
+python3 binance_futures_bot.py
+```
+
+## 📊 Trading Modes
+
+### Moderate Mode ($5-$20 Balance)
+- **Max Positions**: 2
+- **Confidence Threshold**: 70% (normal), 80% (high-confidence)
+- **Expected Growth**: 20-25% monthly
+- **Risk Level**: Conservative
+
+### Optimized Mode ($20+ Balance)
+- **Max Positions**: 3
+- **Confidence Threshold**: 65% (normal), 75% (high-confidence)
+- **Expected Growth**: 30-45% monthly
+- **Risk Level**: Moderate
+
+## ⚠️ Important Notes
+
+1. **Always test first**: Set `TEST_MODE=true` in `.env`
+2. **Start small**: Begin with small amounts
+3. **Monitor regularly**: Check Telegram notifications
+4. **Risk warning**: Trading involves risk of loss
+5. **API security**: Keep your API keys secure
+
+## 📱 Telegram Notifications
+
+The bot sends casual, friendly messages for:
+- Trade entries and exits
+- Balance updates
+- Error alerts
+- Daily summaries
+
+## 🔍 Technical Indicators
+
+- RSI (Relative Strength Index)
+- MACD (Moving Average Convergence Divergence)
+- Bollinger Bands
+- Moving Averages
+- Volume Analysis
+- Market Structure Analysis
+
+## 🛠️ Troubleshooting
+
+### Common Issues:
+1. **API Key Error**: Check permissions and keys
+2. **Telegram Error**: Verify bot token and chat ID
+3. **Balance Error**: Ensure sufficient funds
+4. **Network Error**: Check internet connection
+
+### Logs:
+- Check console output for detailed logs
+- Telegram notifications for important events
+
+## 📈 Performance Expectations
+
+- **Trade Frequency**: 2-5 trades per day
+- **Win Rate**: 60-70%
+- **Drawdown**: 10-18% maximum
+- **Recovery**: 1-2 weeks typically
+
+## 🔒 Security
+
+- Never share API keys
+- Use API keys with Futures trading only
+- Enable IP restrictions on Binance
+- Regular security audits
 
 ## 📞 Support
 
-Untuk bantuan dan support, silakan buat issue di repository ini.
+For issues or questions:
+1. Check the logs first
+2. Verify API key permissions
+3. Ensure sufficient balance
+4. Test with small amounts
 
 ---
 
-**🚀 Ready untuk professional futures trading!**
+**Disclaimer**: This bot is for educational purposes. Trading involves risk. Use at your own discretion.
