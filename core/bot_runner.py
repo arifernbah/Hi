@@ -714,11 +714,10 @@ class BinanceFuturesProBot:
                 # Check for auto-upgrade based on performance
                 upgrade_config = self.performance_monitor.check_and_upgrade()
                 if upgrade_config:
-                                    # Apply auto-upgrade
-                self.config.max_open_positions = upgrade_config['config']['max_open_trades']
-                self.config.max_open_trades = upgrade_config['config']['max_open_trades']  # Keep both for compatibility
-                self.config.confidence_threshold = upgrade_config['config']['confidence_threshold']
-                    
+                    # Apply auto-upgrade
+                    self.config.max_open_positions = upgrade_config['config']['max_open_trades']
+                    self.config.max_open_trades = upgrade_config['config']['max_open_trades']  # Keep both for compatibility
+                    self.config.confidence_threshold = upgrade_config['config']['confidence_threshold']
                     # Send upgrade notification
                     upgrade_msg = (
                         f"🚀 *AUTO UPGRADE ACTIVATED!*\n\n"
@@ -728,7 +727,6 @@ class BinanceFuturesProBot:
                         f"Bot akan trading dengan {upgrade_config['max_positions']} posisi!"
                     )
                     await self.telegram.send_casual_message(upgrade_msg)
-                    
                     logger.info(f"AUTO UPGRADE: {upgrade_config['tier']} - {upgrade_config['max_positions']} positions")
 
                 # Check if we have tradeable symbols
