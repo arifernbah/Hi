@@ -116,19 +116,19 @@ class KellyCriterionCalculator:
             # Conservative adjustment untuk small accounts + dynamic tiers
             adjusted_kelly = base_kelly * confidence_multiplier
 
-            # Dynamic risk brackets
+            # Dynamic risk brackets - optimized for growth
             if balance < 20:
-                min_risk = 0.003   # 0.3%
-                max_risk = 0.03    # 3%
+                min_risk = 0.005   # 0.5% (increased from 0.3%)
+                max_risk = 0.04    # 4% (increased from 3%)
             elif balance < 100:
-                min_risk = 0.005   # 0.5%
-                max_risk = 0.04    # 4%
+                min_risk = 0.007   # 0.7% (increased from 0.5%)
+                max_risk = 0.05    # 5% (increased from 4%)
             elif balance < 500:
                 min_risk = 0.005
-                max_risk = 0.03    # 3% mid-large accounts
+                max_risk = 0.04    # 4% (increased from 3%)
             else:
                 min_risk = 0.005
-                max_risk = 0.025   # 2.5% for big accounts
+                max_risk = 0.03    # 3% (increased from 2.5%)
 
             final_risk_pct = max(min_risk, min(adjusted_kelly, max_risk))
             
@@ -138,15 +138,15 @@ class KellyCriterionCalculator:
             fee_buffer = balance * get_fee_rate()
             risk_amount = max(risk_amount - fee_buffer, 0)
             
-            # Dynamic leverage cap
+            # Dynamic leverage cap - optimized for growth
             if balance >= 500:
                 leverage_cap = 3
             elif balance >= 200:
                 leverage_cap = 3
             elif balance >= 100:
-                leverage_cap = 2.5
+                leverage_cap = 3  # Increased from 2.5
             else:
-                leverage_cap = 2
+                leverage_cap = 2.5  # Increased from 2
 
             return {
                 "risk_percentage": final_risk_pct,

@@ -45,11 +45,12 @@
         "timeframe": "15m",
         "strategy": "hybrid",
         "risk_level": "ultra_conservative",
-        "max_open_trades": 1,
+        "max_open_trades": 2,
+        "confidence_threshold": 70,
         "high_confidence_threshold": 80,
         "max_high_confidence_positions": 1,
         "different_symbols_only": true,
-        "portfolio_heat_limit": 8,
+        "portfolio_heat_limit": 10,
         "position_sizing": {
             "method": "kelly_partial",
             "fraction": 0.4
@@ -87,11 +88,12 @@
         "timeframe": "15m",
         "strategy": "hybrid",
         "risk_level": "ultra_conservative",
-        "max_open_trades": 1,
+        "max_open_trades": 2,
+        "confidence_threshold": 70,
         "high_confidence_threshold": 80,
         "max_high_confidence_positions": 1,
         "different_symbols_only": true,
-        "portfolio_heat_limit": 8,
+        "portfolio_heat_limit": 10,
         "position_sizing": {
             "method": "kelly_partial",
             "fraction": 0.5
@@ -129,11 +131,12 @@
         "timeframe": "15m",
         "strategy": "hybrid",
         "risk_level": "very_conservative",
-        "max_open_trades": 1,
+        "max_open_trades": 2,
+        "confidence_threshold": 70,
         "high_confidence_threshold": 80,
         "max_high_confidence_positions": 1,
         "different_symbols_only": true,
-        "portfolio_heat_limit": 8,
+        "portfolio_heat_limit": 10,
         "position_sizing": {
             "method": "kelly_partial",
             "fraction": 0.6
@@ -171,11 +174,12 @@
         "timeframe": "15m",
         "strategy": "hybrid",
         "risk_level": "very_conservative",
-        "max_open_trades": 1,
+        "max_open_trades": 2,
+        "confidence_threshold": 70,
         "high_confidence_threshold": 80,
         "max_high_confidence_positions": 1,
         "different_symbols_only": true,
-        "portfolio_heat_limit": 8,
+        "portfolio_heat_limit": 10,
         "position_sizing": {
             "method": "kelly_partial",
             "fraction": 0.7
@@ -213,11 +217,12 @@
         "timeframe": "15m",
         "strategy": "hybrid",
         "risk_level": "conservative",
-        "max_open_trades": 1,
+        "max_open_trades": 2,
+        "confidence_threshold": 70,
         "high_confidence_threshold": 80,
         "max_high_confidence_positions": 1,
         "different_symbols_only": true,
-        "portfolio_heat_limit": 8,
+        "portfolio_heat_limit": 10,
         "position_sizing": {
             "method": "kelly_partial",
             "fraction": 0.8

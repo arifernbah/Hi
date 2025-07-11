@@ -812,9 +812,10 @@ class BinanceFuturesProBot:
                         if current_positions_count == 0:
                             # First position - normal confidence is enough
                             can_entry = is_normal_confidence and entry_analysis['action'] in ['long', 'short']
-                        elif current_positions_count == 1:
+                            entry_type = "normal"
+                        elif current_positions_count >= 1:
                             # Second position - need high confidence and different symbol
-                            if self.config.different_symbols_only:
+                            if getattr(self.config, 'different_symbols_only', True):
                                 # Check if we already have a position in this symbol
                                 existing_symbols = [p['symbol'] for p in open_positions]
                                 if symbol not in existing_symbols and is_high_confidence:
