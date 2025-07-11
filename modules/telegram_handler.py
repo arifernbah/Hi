@@ -86,23 +86,23 @@ class TelegramNotifier:
         return text
     
     def get_startup_message(self) -> str:
-        """Startup message yang santai dan friendly"""
-        return f"""🤖 **ArifBot Pro** 
+        """Startup message yang lucu dan ringan"""
+        return f"""🤖 **ArifBot** 
 
-Yo bro\\! Bot trading udah siap nih \\- siap cuan\\! �
+Wahai para trader! Bot udah siap nih, siap bantuin cuan atau bantuin rugi 😂
 
-📊 **Fitur yang aktif:**
-• Pattern recognition
-• Risk management
-• Volume analysis
-• Multi\\-timeframe
+📊 **Yang udah jalan:**
+• Pattern detection (kayak detektif)
+• Risk management (jaga-jaga)
+• Volume analysis (ngitung-ngitung)
+• Multi-timeframe (pinter-pinter)
 
 ⚙️ **Status:**
-• Memory: ✅ OK
-• Risk: ✅ Aman
-• Analysis: ✅ Jalan
+• Memory: ✅ Masih inget
+• Risk: ✅ Masih waras
+• Analysis: ✅ Masih mikir
 
-Gas trading bro\\! 🚀"""
+Gas trading bro! Kalau rugi jangan nyalahin bot ya �"""
     
     def get_entry_message(self, action: str, symbol: str, confidence: float, reason: str, pro_analysis: Dict, genius_features: Dict = None) -> str:
         """Enhanced entry message dengan genius analysis details"""
@@ -110,28 +110,28 @@ Gas trading bro\\! 🚀"""
         # Get random genius emoji
         emoji = random.choice(self.genius_entry_emojis)
         
-        # Action dengan style
+        # Action dengan style lucu
         if action.upper() == "LONG":
-            action_text = "🚀 **NYEBUR LONG**"
+            action_text = "🚀 **Gas Long**"
             direction_emoji = "📈"
         elif action.upper() == "SHORT":
-            action_text = "📉 **NYEBUR SHORT**" 
+            action_text = "📉 **Gas Short**" 
             direction_emoji = "📉"
         else:
             action_text = f"⏳ **{action.upper()}**"
             direction_emoji = "⏳"
         
-        # Confidence level dengan genius assessment
+        # Confidence level dengan style lucu
         if confidence >= 90:
-            confidence_text = "🧠 **GENIUS LEVEL**"
+            confidence_text = "🧠 **Pinter banget**"
         elif confidence >= 80:
-            confidence_text = "⚡ **VERY HIGH**"
+            confidence_text = "⚡ **Tinggi banget**"
         elif confidence >= 70:
-            confidence_text = "🎯 **HIGH**"
+            confidence_text = "🎯 **Tinggi**"
         elif confidence >= 60:
-            confidence_text = "💫 **MEDIUM**"
+            confidence_text = "💫 **Lumayan**"
         else:
-            confidence_text = "⚠️ **LOW**"
+            confidence_text = "⚠️ **Rendah**"
         
         # Basic message structure
         message = f"""{emoji} **Entry Signal** {direction_emoji}
@@ -157,33 +157,33 @@ Gas trading bro\\! 🚀"""
         simplified_reason = reason.split(" | ")[0]  # Take only first part
         message += f"\n\n� **Reason:** {simplified_reason}"
         
-        # Add simple closer
+        # Add simple closer lucu
         if confidence > 70:
-            message += f"\n\n🚀 Gas bro\\!"
+            message += f"\n\n🚀 Gas bro! Semoga cuan! 🙏"
         else:
-            message += f"\n\n⚠️ Hati\\-hati ya\\!"
+            message += f"\n\n⚠️ Hati-hati ya! Kalau rugi jangan nangis 😅"
         
         return message
     
     def get_exit_message(self, symbol: str, side: str, profit_pct: float, reason: str, urgency: str, exit_analysis: Dict = None) -> str:
         """Enhanced exit message dengan genius analysis"""
         
-        # Get appropriate emoji based on profit
+        # Get appropriate emoji based on profit (lucu)
         if profit_pct > 0.02:
             emoji = "🚀"
-            profit_status = "**Besar banget**"
+            profit_status = "**Gede banget cuannya**"
         elif profit_pct > 0.01:
             emoji = "💰"
-            profit_status = "**Bagus**"
+            profit_status = "**Bagus lah**"
         elif profit_pct > 0.005:
             emoji = "💎"
             profit_status = "**Lumayan**"
         elif profit_pct > 0:
             emoji = "✅"
-            profit_status = "**Untung**"
+            profit_status = "**Untung dikit**"
         else:
             emoji = "🛡️"
-            profit_status = "**Rugi**"
+            profit_status = "**Rugi dikit**"
         
         # Urgency styling
         urgency_styles = {
@@ -208,13 +208,13 @@ Gas trading bro\\! 🚀"""
         clean_reason = reason.split(" | ")[0]  # Take only first part
         message += f"\n{clean_reason}"
         
-        # Simple closer
+        # Simple closer lucu
         if profit_pct > 0.01:
-            message += f"\n\n🚀 Mantap bro\\!"
+            message += f"\n\n🚀 Mantap bro! Cuan lagi! 💰"
         elif profit_pct > 0:
-            message += f"\n\n✅ Oke lah\\!"
+            message += f"\n\n✅ Oke lah, untung dikit 😊"
         else:
-            message += f"\n\n🛡️ Risk managed\\!"
+            message += f"\n\n🛡️ Risk managed! Jangan sedih, masih ada besok 😅"
         
         return message
     
@@ -231,15 +231,15 @@ Gas trading bro\\! 🚀"""
         
         message = f"""{status_emoji} **Bot Status**
 
-💰 Balance: **${balance:.2f}**
-📊 Positions: **{active_positions}**
+💰 Balance: **${balance:.2f}** \\(duit kita\\)
+📊 Positions: **{active_positions}** \\(yang lagi jalan\\)
 🔧 Mode: **{mode}**
 ⚙️ Status: {status_text}
 
-📈 Win Rate: **{pro_stats.get('win_rate', 0) * 100:.1f}%**
-🎯 Kelly: **{pro_stats.get('kelly_percentage', 0) * 100:.2f}%**
+📈 Win Rate: **{pro_stats.get('win_rate', 0) * 100:.1f}%** \\(berapa kali menang\\)
+🎯 Kelly: **{pro_stats.get('kelly_percentage', 0) * 100:.2f}%** \\(berapa % modal\\)
 
-Ready cuan bro\\! 🚀"""
+Ready cuan bro! Atau siap rugi �"""
         
         return message
     
