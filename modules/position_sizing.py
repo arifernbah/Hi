@@ -116,19 +116,19 @@ class KellyCriterionCalculator:
             # Conservative adjustment untuk small accounts + dynamic tiers
             adjusted_kelly = base_kelly * confidence_multiplier
 
-            # Dynamic risk brackets - MODERATE MODE
+            # Dynamic risk brackets - OPTIMIZED MODE
             if balance < 20:
                 min_risk = 0.005   # 0.5%
                 max_risk = 0.035   # 3.5% (moderate)
             elif balance < 100:
                 min_risk = 0.007   # 0.7%
-                max_risk = 0.04    # 4% (moderate)
+                max_risk = 0.045   # 4.5% (optimized)
             elif balance < 500:
                 min_risk = 0.005
-                max_risk = 0.035   # 3.5% (moderate)
+                max_risk = 0.04    # 4% (optimized)
             else:
                 min_risk = 0.005
-                max_risk = 0.03    # 3% (moderate)
+                max_risk = 0.035   # 3.5% (optimized)
 
             final_risk_pct = max(min_risk, min(adjusted_kelly, max_risk))
             
@@ -201,15 +201,15 @@ class KellyCriterionCalculator:
     def calculate_auto_leverage(self, symbol: str, balance: float, market_data: Dict = None) -> float:
         """Calculate optimal leverage based on market conditions, balance, and symbol"""
         try:
-            # Base leverage by balance tier
+            # Base leverage by balance tier - OPTIMIZED
             if balance < 20:
                 base_leverage = 2.5
             elif balance < 100:
-                base_leverage = 3.0
+                base_leverage = 3.5  # Increased from 3.0
             elif balance < 500:
-                base_leverage = 3.5
+                base_leverage = 4.0  # Increased from 3.5
             else:
-                base_leverage = 4.0
+                base_leverage = 4.5  # Increased from 4.0
             
             # Symbol-specific adjustment
             symbol_adjustment = 1.0
@@ -239,8 +239,8 @@ class KellyCriterionCalculator:
             # Calculate final leverage
             final_leverage = base_leverage * symbol_adjustment * volatility_adjustment
             
-            # Apply safety limits
-            max_leverage = 5.0 if balance >= 100 else 3.0
+            # Apply safety limits - OPTIMIZED
+            max_leverage = 6.0 if balance >= 100 else 4.0  # Increased limits
             min_leverage = 1.5
             
             final_leverage = max(min_leverage, min(final_leverage, max_leverage))

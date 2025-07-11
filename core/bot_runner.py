@@ -845,7 +845,7 @@ class BinanceFuturesProBot:
                             # First position - normal confidence is enough
                             can_entry = is_normal_confidence and entry_analysis['action'] in ['long', 'short']
                             entry_type = "normal"
-                        elif current_positions_count >= 1:
+                        elif current_positions_count == 1:
                             # Second position - need high confidence and different symbol
                             if getattr(self.config, 'different_symbols_only', True):
                                 # Check if we already have a position in this symbol
@@ -857,6 +857,18 @@ class BinanceFuturesProBot:
                                 # Allow same symbol if different_symbols_only is false
                                 can_entry = is_high_confidence and entry_analysis['action'] in ['long', 'short']
                                 entry_type = "high_confidence"
+                        elif current_positions_count == 2:
+                            # Third position - need very high confidence and different symbol
+                            if getattr(self.config, 'different_symbols_only', True):
+                                # Check if we already have a position in this symbol
+                                existing_symbols = [p['symbol'] for p in open_positions]
+                                if symbol not in existing_symbols and entry_analysis['confidence'] >= 75:
+                                    can_entry = entry_analysis['action'] in ['long', 'short']
+                                    entry_type = "very_high_confidence"
+                            else:
+                                # Allow same symbol if different_symbols_only is false
+                                can_entry = entry_analysis['confidence'] >= 75 and entry_analysis['action'] in ['long', 'short']
+                                entry_type = "very_high_confidence"
                         
                         if can_entry:
                             # Check portfolio heat limit

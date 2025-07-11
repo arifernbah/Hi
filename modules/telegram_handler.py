@@ -87,23 +87,25 @@ class TelegramNotifier:
     
     def get_startup_message(self) -> str:
         """Startup message yang lucu dan ringan"""
-        return f"""🤖 **ArifBot - MODERATE MODE** 
+        return f"""🤖 **ArifBot - OPTIMIZED MODE** 
 
-Wahai para trader! Bot udah siap nih dengan MODERATE MODE - growth aman tapi ga lambat! �
+Wahai para trader! Bot udah siap nih dengan OPTIMIZED MODE - growth lebih cepat dengan risk terkendali! 🚀
 
 📊 **Yang udah jalan:**
 • Pattern detection (kayak detektif)
 • Risk management (jaga-jaga)
 • Volume analysis (ngitung-ngitung)
 • Multi-timeframe (pinter-pinter)
+• Auto leverage (pinter-pinter)
 
 ⚙️ **Status:**
 • Memory: ✅ Masih inget
 • Risk: ✅ Masih waras
 • Analysis: ✅ Masih mikir
-• Mode: ✅ Moderate (20-25% target)
+• Mode: ✅ Optimized (30-45% target)
+• Positions: ✅ 3 max (65%+ confidence)
 
-Gas trading bro! Growth aman tapi ga lambat! 📈"""
+Gas trading bro! Growth lebih cepat dengan risk aman! 📈"""
     
     def get_entry_message(self, action: str, symbol: str, confidence: float, reason: str, pro_analysis: Dict, genius_features: Dict = None) -> str:
         """Enhanced entry message dengan genius analysis details"""
@@ -165,9 +167,9 @@ Gas trading bro! Growth aman tapi ga lambat! 📈"""
         
         # Add simple closer lucu
         if confidence > 70:
-            message += f"\n\n🚀 Gas bro! Moderate mode - growth aman! 🙏"
+            message += f"\n\n🚀 Gas bro! Optimized mode - growth lebih cepat! 🙏"
         else:
-            message += f"\n\n⚠️ Hati-hati ya! Moderate mode tetap jaga risk 😅"
+            message += f"\n\n⚠️ Hati-hati ya! Optimized mode tetap jaga risk 😅"
         
         return message
     
@@ -216,11 +218,11 @@ Gas trading bro! Growth aman tapi ga lambat! 📈"""
         
         # Simple closer lucu
         if profit_pct > 0.01:
-            message += f"\n\n🚀 Mantap bro! Moderate mode cuan! 💰"
+            message += f"\n\n🚀 Mantap bro! Optimized mode cuan! 💰"
         elif profit_pct > 0:
-            message += f"\n\n✅ Oke lah, moderate growth! 😊"
+            message += f"\n\n✅ Oke lah, optimized growth! 😊"
         else:
-            message += f"\n\n🛡️ Risk managed! Moderate mode tetap aman 😅"
+            message += f"\n\n🛡️ Risk managed! Optimized mode tetap aman 😅"
         
         return message
     
