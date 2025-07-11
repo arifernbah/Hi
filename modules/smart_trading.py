@@ -590,20 +590,9 @@ class SmartEntry:
         final_size = max(final_size, 0.003)  # Min 0.3%
         final_size = min(final_size, max_risk_cap)
         
-        # Dynamic leverage based on confidence
-        base_leverage = 1 + score_multiplier
-        confidence_boost = 1 + (genius_multiplier - 1) * 0.5  # Moderate leverage boost
-        # Dynamic leverage cap by balance tier
-        if balance >= 500:
-            leverage_cap = 3
-        elif balance >= 200:
-            leverage_cap = 3
-        elif balance >= 100:
-            leverage_cap = 2.5
-        else:
-            leverage_cap = 2
-
-        final_leverage = min(base_leverage * confidence_boost, leverage_cap)
+        # Auto leverage calculation - will be calculated in position_sizing module
+        # This is just a placeholder, actual leverage will be calculated during trade execution
+        final_leverage = 3.0  # Default moderate leverage
         
         return {
             'risk_percentage': final_size,

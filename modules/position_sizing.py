@@ -138,15 +138,8 @@ class KellyCriterionCalculator:
             fee_buffer = balance * get_fee_rate()
             risk_amount = max(risk_amount - fee_buffer, 0)
             
-            # Dynamic leverage cap - MODERATE MODE
-            if balance >= 500:
-                leverage_cap = 3
-            elif balance >= 200:
-                leverage_cap = 3
-            elif balance >= 100:
-                leverage_cap = 3
-            else:
-                leverage_cap = 3  # Moderate leverage
+            # Auto leverage calculation
+            leverage_cap = self.calculate_auto_leverage(symbol, balance, market_data)
 
             return {
                 "risk_percentage": final_risk_pct,
@@ -204,3 +197,59 @@ class KellyCriterionCalculator:
                  "position_count": 0,
                  "max_heat_reached": False
              }
+
+    def calculate_auto_leverage(self, symbol: str, balance: float, market_data: Dict = None) -> float:
+        """Calculate optimal leverage based on market conditions, balance, and symbol"""
+        try:
+            # Base leverage by balance tier
+            if balance < 20:
+                base_leverage = 2.5
+            elif balance < 100:
+                base_leverage = 3.0
+            elif balance < 500:
+                base_leverage = 3.5
+            else:
+                base_leverage = 4.0
+            
+            # Symbol-specific adjustment
+            symbol_adjustment = 1.0
+            if symbol in ["BTCUSDT", "ETHUSDT", "BNBUSDT"]:
+                # Major coins - more stable, higher leverage
+                symbol_adjustment = 1.2
+            elif symbol in ["DOGEUSDT", "SHIBUSDT", "PEPEUSDT"]:
+                # Meme coins - very volatile, lower leverage
+                symbol_adjustment = 0.7
+            elif symbol in ["ADAUSDT", "SOLUSDT", "MATICUSDT", "AVAXUSDT", "DOTUSDT", "LINKUSDT"]:
+                # Altcoins - moderate volatility
+                symbol_adjustment = 0.9
+            
+            # Volatility-based adjustment
+            volatility_adjustment = 1.0
+            if market_data and 'volatility' in market_data:
+                volatility = market_data['volatility']
+                if volatility < 0.02:  # < 2% volatility
+                    volatility_adjustment = 1.3  # Higher leverage
+                elif volatility < 0.04:  # 2-4% volatility
+                    volatility_adjustment = 1.0  # Normal leverage
+                elif volatility < 0.06:  # 4-6% volatility
+                    volatility_adjustment = 0.8  # Lower leverage
+                else:  # > 6% volatility
+                    volatility_adjustment = 0.6  # Much lower leverage
+            
+            # Calculate final leverage
+            final_leverage = base_leverage * symbol_adjustment * volatility_adjustment
+            
+            # Apply safety limits
+            max_leverage = 5.0 if balance >= 100 else 3.0
+            min_leverage = 1.5
+            
+            final_leverage = max(min_leverage, min(final_leverage, max_leverage))
+            
+            logger.info(f"AUTO LEVERAGE: {symbol} - Base:{base_leverage:.1f} Symbol:{symbol_adjustment:.1f} Vol:{volatility_adjustment:.1f} Final:{final_leverage:.1f}")
+            
+            return round(final_leverage, 1)
+            
+        except Exception as e:
+            logger.error(f"Error calculating auto leverage: {e}")
+            # Fallback to safe leverage
+            return 2.5 if balance < 20 else 3.0

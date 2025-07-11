@@ -535,7 +535,7 @@ class BinanceFuturesProBot:
             logger.error(f"Error getting klines data: {e}")
             return []
     
-    async def execute_trade_pro(self, symbol: str, entry_analysis: Dict[str, Any]) -> bool:
+    async def execute_trade_pro(self, symbol: str, entry_analysis: Dict[str, Any], klines_data: list = None) -> bool:
         """Execute trade dengan professional analysis"""
         try:
             action = entry_analysis['action']
@@ -548,9 +548,14 @@ class BinanceFuturesProBot:
             balances = await self.client.futures_account_balance()
             balance = next((float(x['balance']) for x in balances if x['asset'] == 'USDT'), 0)
             
-            # Use professional position sizing
+            # Use professional position sizing with auto leverage
             risk_pct = position_sizing.get('risk_percentage', 0.02)
-            leverage = int(position_sizing.get('leverage', 2))
+            
+            # Calculate auto leverage based on market conditions
+            market_data = {
+                'volatility': self._calculate_market_volatility(symbol, klines_data) if klines_data else 0.03
+            }
+            leverage = int(self.position_sizing.calculate_auto_leverage(symbol, balance, market_data))
             
             risk_amount = balance * risk_pct
             
@@ -686,6 +691,33 @@ class BinanceFuturesProBot:
             logger.error(f"Error closing position professionally: {e}")
             return False
     
+    def _calculate_market_volatility(self, symbol: str, klines_data: list) -> float:
+        """Calculate market volatility for auto leverage"""
+        try:
+            if not klines_data or len(klines_data) < 20:
+                return 0.03  # Default moderate volatility
+            
+            # Calculate price changes
+            prices = [float(k[4]) for k in klines_data]  # Close prices
+            returns = []
+            
+            for i in range(1, len(prices)):
+                if prices[i-1] > 0:
+                    returns.append(abs((prices[i] - prices[i-1]) / prices[i-1]))
+            
+            if not returns:
+                return 0.03
+            
+            # Calculate volatility as standard deviation of returns
+            volatility = np.std(returns) if len(returns) > 1 else 0.03
+            
+            logger.info(f"Market volatility for {symbol}: {volatility:.4f}")
+            return volatility
+            
+        except Exception as e:
+            logger.error(f"Error calculating market volatility: {e}")
+            return 0.03  # Default moderate volatility
+
     def optimize_memory(self):
         """Memory optimization untuk VPS 1GB"""
         self.memory_optimization_counter += 1
@@ -832,7 +864,7 @@ class BinanceFuturesProBot:
                             heat_limit = getattr(self.config, 'portfolio_heat_limit', 10) / 100
                             
                             if portfolio_heat['total_heat'] < heat_limit:
-                                success = await self.execute_trade_pro(symbol, entry_analysis)
+                                success = await self.execute_trade_pro(symbol, entry_analysis, klines_data)
                                 if success:
                                     logger.info(f"PRO TRADE EXECUTED: {entry_type.upper()} {entry_analysis['action']} {symbol} (Confidence: {entry_analysis['confidence']:.1f}%)")
                             else:

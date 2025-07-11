@@ -154,6 +154,11 @@ Gas trading bro! Growth aman tapi ga lambat! 📈"""
             if 'none' not in primary_pattern:
                 message += f"\n🎯 Pattern: {primary_pattern.split('(')[0].strip()}"
         
+        # Add auto leverage info if available
+        if 'position_sizing' in entry_analysis:
+            leverage = entry_analysis.get('position_sizing', {}).get('leverage', 3)
+            message += f"\n⚡ Auto Leverage: {leverage}x"
+        
         # Add simplified reason
         simplified_reason = reason.split(" | ")[0]  # Take only first part
         message += f"\n\n� **Reason:** {simplified_reason}"
