@@ -45,7 +45,7 @@
         "timeframe": "15m",
         "strategy": "hybrid",
         "risk_level": "ultra_conservative",
-        "max_open_trades": 2,
+        "max_open_trades": 1,
         "high_confidence_threshold": 80,
         "max_high_confidence_positions": 1,
         "different_symbols_only": true,
@@ -88,6 +88,10 @@
         "strategy": "hybrid",
         "risk_level": "ultra_conservative",
         "max_open_trades": 1,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 8,
         "position_sizing": {
             "method": "kelly_partial",
             "fraction": 0.5
@@ -126,6 +130,10 @@
         "strategy": "hybrid",
         "risk_level": "very_conservative",
         "max_open_trades": 1,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 8,
         "position_sizing": {
             "method": "kelly_partial",
             "fraction": 0.6
@@ -164,6 +172,10 @@
         "strategy": "hybrid",
         "risk_level": "very_conservative",
         "max_open_trades": 1,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 8,
         "position_sizing": {
             "method": "kelly_partial",
             "fraction": 0.7
@@ -202,6 +214,10 @@
         "strategy": "hybrid",
         "risk_level": "conservative",
         "max_open_trades": 1,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 8,
         "position_sizing": {
             "method": "kelly_partial",
             "fraction": 0.8
@@ -240,6 +256,10 @@
         "strategy": "hybrid",
         "risk_level": "balanced",
         "max_open_trades": 3,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 12,
         "position_sizing": {
             "method": "fixed_fraction",
             "fraction": 0.5
@@ -277,6 +297,10 @@
         "strategy": "hybrid",
         "risk_level": "balanced",
         "max_open_trades": 3,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 12,
         "position_sizing": {
             "method": "fixed_fraction",
             "fraction": 0.5
@@ -314,6 +338,10 @@
         "strategy": "hybrid",
         "risk_level": "balanced",
         "max_open_trades": 3,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 12,
         "position_sizing": {
             "method": "fixed_fraction",
             "fraction": 0.3
@@ -351,6 +379,10 @@
         "strategy": "hybrid",
         "risk_level": "balanced_plus",
         "max_open_trades": 4,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 12,
         "position_sizing": {
             "method": "fixed_fraction",
             "fraction": 0.3
@@ -388,6 +420,10 @@
         "strategy": "hybrid",
         "risk_level": "balanced_plus",
         "max_open_trades": 4,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 12,
         "position_sizing": {
             "method": "fixed_fraction",
             "fraction": 0.3
@@ -425,6 +461,10 @@
         "strategy": "hybrid_max",
         "risk_level": "full_aggressive",
         "max_open_trades": 5,
+        "high_confidence_threshold": 80,
+        "max_high_confidence_positions": 1,
+        "different_symbols_only": true,
+        "portfolio_heat_limit": 12,
         "position_sizing": {
             "method": "fixed_fraction",
             "fraction": 0.3

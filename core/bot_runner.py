@@ -791,16 +791,51 @@ class BinanceFuturesProBot:
                         if exit_analysis['action'] == 'close':
                             await self.close_position_pro(symbol, position, exit_analysis)
                     
-                    # Check entry conditions
-                    if len(symbol_positions) < self.config.max_open_positions:
+                    # Check entry conditions with smart position management
+                    current_positions_count = len(open_positions)
+                    symbol_positions_count = len(symbol_positions)
+                    
+                    # Check if we can add more positions
+                    can_add_position = current_positions_count < self.config.max_open_positions
+                    
+                    if can_add_position:
                         entry_analysis = self.smart_entry.analyze_entry(klines_data)
                         
-                        if (entry_analysis['action'] in ['long', 'short'] and 
-                            entry_analysis['confidence'] >= self.config.confidence_threshold):
+                        # Determine entry type based on confidence and existing positions
+                        is_high_confidence = entry_analysis['confidence'] >= getattr(self.config, 'high_confidence_threshold', 80)
+                        is_normal_confidence = entry_analysis['confidence'] >= self.config.confidence_threshold
+                        
+                        # Check if this is a valid entry
+                        can_entry = False
+                        entry_type = "normal"
+                        
+                        if current_positions_count == 0:
+                            # First position - normal confidence is enough
+                            can_entry = is_normal_confidence and entry_analysis['action'] in ['long', 'short']
+                        elif current_positions_count == 1:
+                            # Second position - need high confidence and different symbol
+                            if self.config.different_symbols_only:
+                                # Check if we already have a position in this symbol
+                                existing_symbols = [p['symbol'] for p in open_positions]
+                                if symbol not in existing_symbols and is_high_confidence:
+                                    can_entry = entry_analysis['action'] in ['long', 'short']
+                                    entry_type = "high_confidence"
+                            else:
+                                # Allow same symbol if different_symbols_only is false
+                                can_entry = is_high_confidence and entry_analysis['action'] in ['long', 'short']
+                                entry_type = "high_confidence"
+                        
+                        if can_entry:
+                            # Check portfolio heat limit
+                            portfolio_heat = self.position_sizing.get_portfolio_heat(open_positions, current_balance)
+                            heat_limit = getattr(self.config, 'portfolio_heat_limit', 10) / 100
                             
-                            success = await self.execute_trade_pro(symbol, entry_analysis)
-                            if success:
-                                logger.info(f"PRO TRADE EXECUTED: {entry_analysis['action']} {symbol}")
+                            if portfolio_heat['total_heat'] < heat_limit:
+                                success = await self.execute_trade_pro(symbol, entry_analysis)
+                                if success:
+                                    logger.info(f"PRO TRADE EXECUTED: {entry_type.upper()} {entry_analysis['action']} {symbol} (Confidence: {entry_analysis['confidence']:.1f}%)")
+                            else:
+                                logger.info(f"Portfolio heat limit reached: {portfolio_heat['total_heat']:.1%} >= {heat_limit:.1%}")
                 
                 # Sleep between iterations
                 await asyncio.sleep(15)
