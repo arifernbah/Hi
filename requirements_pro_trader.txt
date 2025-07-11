@@ -1,0 +1,25 @@
+# Professional Trader Bot Requirements - Optimized for 1GB VPS
+# Core trading dependencies
+python-binance==1.0.19
+python-telegram-bot==20.6
+
+# Professional analysis dependencies  
+numpy==1.24.4
+pytz==2023.3
+
+# System monitoring (lightweight)
+psutil==5.9.5
+
+# Configuration
+python-dotenv==1.0.0
+
+# Async support
+aiohttp==3.8.6
+
+# Note: This setup uses minimal versions to keep memory usage < 120MB on 1GB VPS
+# All professional trader modules included:
+# - Advanced Market Analysis (Market Regime, ICT/Liquidity Zones, Market Structure)
+# - Kelly Criterion Position Sizing
+# - Session-based Timing Analysis
+# - Professional Risk Management
+# - Enhanced Technical Analysis
