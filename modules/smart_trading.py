@@ -250,11 +250,11 @@ class SmartEntry:
             body_size = abs(closes[i] - opens[i])
             candle_range = highs[i] - lows[i]
             
-            if candle_range > 0 and body_size / candle_range < 0.1:
+            if candle_range > 0.0001 and body_size / candle_range < 0.1:  # Prevent division by zero
                 patterns['reversal_patterns'].append(f"doji_at_{i}")
             
             # Hammer/Shooting Star
-            if candle_range > 0:
+            if candle_range > 0.0001:  # Prevent division by zero
                 lower_shadow = (min(opens[i], closes[i]) - lows[i]) / candle_range
                 upper_shadow = (highs[i] - max(opens[i], closes[i])) / candle_range
                 
@@ -1525,7 +1525,7 @@ class SmartExit:
             body_size = abs(closes[i] - opens[i])
             candle_range = highs[i] - lows[i]
             
-            if candle_range > 0:
+            if candle_range > 0.0001:  # Prevent division by zero
                 upper_shadow = (highs[i] - max(opens[i], closes[i])) / candle_range
                 lower_shadow = (min(opens[i], closes[i]) - lows[i]) / candle_range
                 
@@ -1536,7 +1536,7 @@ class SmartExit:
                     patterns.append("hammer")
             
             # Doji
-            if candle_range > 0 and body_size / candle_range < 0.15:
+            if candle_range > 0.0001 and body_size / candle_range < 0.15:  # Prevent division by zero
                 patterns.append("doji")
         
         return patterns

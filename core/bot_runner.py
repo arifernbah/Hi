@@ -208,6 +208,10 @@ class BinanceFuturesProBot:
                 logger.error(f"Error testing Futures connection: {e}")
                 await self.telegram.send_casual_message(f"❌ Gagal test koneksi Futures: {str(e)}")
                 return False
+        except BinanceAPIException as e:
+            logger.error(f"Binance API Error: {e}")
+            await self.telegram.send_casual_message(f"❌ Binance API Error: {str(e)}")
+            return False
         except Exception as e:
             logger.error(f"Error initializing Binance client: {e}")
             await self.telegram.send_casual_message(f"❌ Error koneksi Binance: {str(e)}")
@@ -557,11 +561,20 @@ class BinanceFuturesProBot:
             # Calculate quantity
             quantity = (risk_amount * leverage) / current_price
             
-            # Check minimum quantity
+            # Check minimum quantity with safe access
             exchange_info = await self.client.futures_exchange_info()
-            symbol_info = next(s for s in exchange_info['symbols'] if s['symbol'] == symbol)
-            min_qty = float([f for f in symbol_info['filters'] if f['filterType'] == 'LOT_SIZE'][0]['minQty'])
-            step_size = float([f for f in symbol_info['filters'] if f['filterType'] == 'LOT_SIZE'][0]['stepSize'])
+            symbol_info = next((s for s in exchange_info['symbols'] if s['symbol'] == symbol), None)
+            if not symbol_info:
+                logger.error(f"Symbol {symbol} not found in exchange info")
+                return False
+                
+            lot_size_filters = [f for f in symbol_info.get('filters', []) if f.get('filterType') == 'LOT_SIZE']
+            if not lot_size_filters:
+                logger.error(f"No LOT_SIZE filter found for {symbol}")
+                return False
+                
+            min_qty = float(lot_size_filters[0].get('minQty', '0.001'))
+            step_size = float(lot_size_filters[0].get('stepSize', '0.001'))
             
             if quantity < min_qty:
                 await self.telegram.send_casual_message(f"⚠️ Quantity too small: {quantity:.6f} < {min_qty}")
@@ -597,6 +610,10 @@ class BinanceFuturesProBot:
             logger.info(f"PRO TRADE: {action} {symbol} qty:{quantity:.6f} leverage:{leverage}x risk:{risk_pct:.2%}")
             return True
             
+        except BinanceAPIException as e:
+            logger.error(f"Binance API Error in trade execution: {e}")
+            await self.telegram.send_casual_message(f"❌ Binance API Error: {str(e)}")
+            return False
         except Exception as e:
             logger.error(f"Error executing professional trade: {e}")
             await self.telegram.send_casual_message(f"❌ Trade error: {str(e)}")
@@ -661,6 +678,10 @@ class BinanceFuturesProBot:
             logger.info(f"PRO CLOSE: {symbol} profit: {profit_pct:.3%} reason: {exit_reason}")
             return True
             
+        except BinanceAPIException as e:
+            logger.error(f"Binance API Error in position closing: {e}")
+            await self.telegram.send_casual_message(f"❌ Binance API Error: {str(e)}")
+            return False
         except Exception as e:
             logger.error(f"Error closing position professionally: {e}")
             return False
