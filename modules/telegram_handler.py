@@ -53,9 +53,8 @@ class TelegramNotifier:
             
             self.last_notification_time[message_hash] = current_time
             
-            # Escape special characters for Markdown
-            if parse_mode == 'Markdown':
-                message = self._escape_markdown(message)
+            # Note: Manual escaping is done in message creation, so we don't auto-escape here
+            # This prevents double escaping of already escaped characters
             
             # Send message
             await self.bot.send_message(
@@ -90,20 +89,20 @@ class TelegramNotifier:
         """Enhanced startup message dengan genius features"""
         genius_features = [
             "🧠 **GENIUS PATTERN RECOGNITION**",
-            "📊 **Multi-Timeframe Confluence**", 
+            "📊 **Multi\\-Timeframe Confluence**", 
             "🎯 **Advanced Volume Profile**",
             "⚡ **Dynamic Risk Management**",
             "🌟 **ICT Liquidity Concepts**",
             "🔥 **Kelly Criterion Optimization**",
-            "💎 **9-Layer Exit System**",
-            "🚀 **Session-Based Intelligence**"
+            "💎 **9\\-Layer Exit System**",
+            "🚀 **Session\\-Based Intelligence**"
         ]
         
         features_text = "\n".join(f"  {feature}" for feature in genius_features)
         
-        return f"""🤖 **SUPER BRILLIANT BOT - GENIUS EDITION** 🧠
+        return f"""🤖 **SUPER BRILLIANT BOT \\- GENIUS EDITION** 🧠
 
-*Intelligence Level: PROFESSIONAL TRADER (10+ Years)*
+*Intelligence Level: PROFESSIONAL TRADER \\(10\\+ Years\\)*
 
 🚀 **GENIUS FEATURES ACTIVATED:**
 {features_text}
@@ -112,10 +111,10 @@ class TelegramNotifier:
 • Memory Optimization: ✅ Active
 • Risk Management: ✅ Hedge Fund Grade  
 • Pattern Recognition: ✅ Institutional Level
-• Multi-Layer Analysis: ✅ Operational
+• Multi\\-Layer Analysis: ✅ Operational
 
-💎 **Ready untuk PROFIT MAKSIMAL!**
-Bot siap dengan kecerdasan setara trader profesional! 
+💎 **Ready untuk PROFIT MAKSIMAL\\!**
+Bot siap dengan kecerdasan setara trader profesional\\! 
 
 *"Intelligence is the ultimate edge in trading"* 🎯"""
     
